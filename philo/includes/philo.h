@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 17:03:03 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:08:40 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_data
 
 	int	time_to_eat;
 	int	time_to_sleep;
+	int num_of_philos;
+	int max_eat;
 }	t_data;
 
 /* t_philo -- Philosopher specific data
@@ -44,6 +46,7 @@ typedef struct s_philo
 	int				id;
 	t_philo_state 	state;
 	int				time_last_eat;
+	int				times_eaten;
 
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
