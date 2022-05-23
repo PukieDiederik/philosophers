@@ -1,8 +1,8 @@
 ## File stuff
 
-FNAMES 		= philo.c
+FNAMES 		= philo.c utils.c data.c
 
-HNAMES		=
+HNAMES		= philo.h
 
 
 
