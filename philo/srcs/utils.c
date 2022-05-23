@@ -6,11 +6,12 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 17:15:11 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:28:54 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
+#include <stdlib.h>
 
 int	ft_isdigit(int c)
 {
@@ -31,7 +32,7 @@ int	ft_atoi(const char *str)
 
 unsigned long get_time(void)
 {
-	struct timeval	tval;
+	struct	timeval	tval;
 
 	if (gettimeofday(&tval,0) < 0)
 		return (0);
