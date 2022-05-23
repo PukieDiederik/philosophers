@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 16:53:35 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:03:03 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PHILO_H
 
 # include <pthread.h>
-# include <sys/time.h>
 
 typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
 
@@ -57,5 +56,6 @@ void	data_destroy(t_data *d);
 // Utils
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
+unsigned long get_time(void);
 
 #endif

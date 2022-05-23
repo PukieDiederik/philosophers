@@ -6,14 +6,12 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 16:55:51 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:02:56 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
 
 static int is_valid(int argc, char **argv)
 {
@@ -29,15 +27,13 @@ static int is_valid(int argc, char **argv)
 t_data *data_init(int argc, char **argv)
 {
 	t_data	*data;
-	struct timeval tval;
 
 	if (!is_valid(argc, argv))
 		return (0);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (0);
-	gettimeofday(&tval,0);
-	data->start_time = (tval.tv_sec * 1000) + (tval.tv_usec / 1000);
+	data->start_time = get_time();
 	return (data);
 };
 
