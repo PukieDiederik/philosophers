@@ -1,0 +1,9 @@
+#ignore build files
+*.o
+objs/*.o
+philo
+
+#ignore editor files
+.vscode
+.idea
+*.swp
