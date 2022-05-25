@@ -13,12 +13,45 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "philo.h"
 
-void *philosopher(void *philo)
+void *philosopher(void *v)
 {
-	printf("id: %d\n",((t_philo *)philo)->id);
-	free(philo);
+	t_vars	*vars = v;
+
+	while(vars->data->max_eat < 0 || vars->philo->times_eaten < vars->data->max_eat) {
+		if (vars->philo->state == eating) {
+			pthread_mutex_lock(vars->philo->l_fork);
+			printf("%lu\t\t%d\tHas taken their left fork\n",
+				   get_time() - vars->philo->start_time, vars->philo->id);
+			pthread_mutex_lock(vars->philo->r_fork);
+			printf("%lu\t\t%d\tHas taken their right fork\n",
+				   get_time() - vars->philo->start_time, vars->philo->id);
+			printf("%lu\t\t%d\tis eating\n",
+		  		get_time() - vars->philo->start_time, vars->philo->id);
+			vars->philo->time_last_eat = get_time();
+			vars->philo->times_eaten++;
+			usleep(vars->data->time_to_eat * 1000);
+			pthread_mutex_unlock(vars->philo->l_fork);
+			pthread_mutex_unlock(vars->philo->r_fork);
+			vars->philo->state = sleeping;
+		}
+		else if (vars->philo->state == sleeping) {
+			printf("%lu\t%d\t is sleeping\n",
+				   get_time() - vars->philo->start_time, vars->philo->id);
+			vars->philo->state = thinking;
+			usleep(vars->data->time_to_sleep * 1000);
+		}
+		else if (vars->philo->state== thinking)
+		{
+			printf("%lu\t%d\t is thinking\n",
+				   get_time() - vars->philo->start_time, vars->philo->id);
+			vars->philo->state = eating;
+			usleep(vars->data->time_to_eat + vars->data->time_to_sleep);
+		}
+	}
+	free(vars->philo);
 	return (0);
 }
 
@@ -35,6 +68,7 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks)
 	philo->times_eaten = 0;
 	philo->l_fork = forks + id;
 	philo->r_fork = forks + ((id + 1) % data->num_of_philos);
+	philo->start_time= get_time();
 	return (philo);
 }
 
@@ -52,17 +86,20 @@ int     main(int argc, char **argv)
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
 	printf("creating forks & philos\n");
 	while (++i < data->num_of_philos) {
+		t_vars *v = malloc(sizeof(t_vars));
+		v->philo = create_philo(i, data, forks);
+		v->data = data;
 		pthread_mutex_init(forks + i, 0);
-		pthread_create(philosophers + i, 0, &philosopher, (void *) create_philo(i, data, forks));
+		pthread_create(philosophers + i, 0, &philosopher, (void *)v);
 	}
-	printf("destroying forks\n");
 	i = -1;
 	while(++i < data->num_of_philos) {
-		pthread_mutex_destroy(forks + i);
 		pthread_join(philosophers[i], 0);
 	}
-
-	printf("start time: %lu\n", data->start_time);
+	i = -1;
+	while(++i < data->num_of_philos) {
+		pthread_mutex_destroy(forks +i);
+	}
 	printf("num philos: %d\n", data->num_of_philos);
 	printf("time to die: %d\n", data->time_to_die);
 	printf("time to eat: %d\n", data->time_to_eat);

@@ -26,7 +26,6 @@ typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
  */
 typedef struct s_data
 {
-	unsigned long	start_time;
 	int	time_to_die;
 
 	int	time_to_eat;
@@ -47,10 +46,17 @@ typedef struct s_philo
 	t_philo_state 	state;
 	int				time_last_eat;
 	int				times_eaten;
+	unsigned long	start_time;
 
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }	t_philo;
+
+typedef struct s_vars
+{
+	t_philo *philo;
+	t_data	*data;
+}	t_vars;
 
 // Functions
 t_data *data_init(int argc, char **argv);
