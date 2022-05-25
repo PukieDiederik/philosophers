@@ -15,23 +15,54 @@
 #include <stdlib.h>
 #include "philo.h"
 
+void *philosopher(void *philo)
+{
+	printf("id: %d\n",((t_philo *)philo)->id);
+	free(philo);
+	return (0);
+}
+
+t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks)
+{
+	t_philo *philo;
+
+	philo = malloc(sizeof(t_philo));
+	if (!philo)
+		return (0);
+	philo->id = id;
+	philo->state = id % 2;
+	philo->time_last_eat = 0;
+	philo->times_eaten = 0;
+	philo->l_fork = forks + id;
+	philo->r_fork = forks + ((id + 1) % data->num_of_philos);
+	return (philo);
+}
+
 int     main(int argc, char **argv)
 {
 	t_data	*data;
 	pthread_mutex_t *forks;
-	int i = 0;
+	pthread_t *philosophers;
+	int i = -1;
 
 	if (argc != 5 && argc != 6)
 		return (1);
 	data = data_init(argc, argv);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
-	while (i < data->num_of_philos)
+	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
+	printf("creating forks & philos\n");
+	while (++i < data->num_of_philos) {
 		pthread_mutex_init(forks + i, 0);
-	while(i < data->num_of_philos)
+		pthread_create(philosophers + i, 0, &philosopher, (void *) create_philo(i, data, forks));
+	}
+	printf("destroying forks\n");
+	i = -1;
+	while(++i < data->num_of_philos) {
 		pthread_mutex_destroy(forks + i);
+		pthread_join(philosophers[i], 0);
+	}
 
-	printf("%s\n", *(argv + 1));
-	printf("starttime: %lu\n", data->start_time);
+	printf("start time: %lu\n", data->start_time);
 	printf("num philos: %d\n", data->num_of_philos);
 	printf("time to die: %d\n", data->time_to_die);
 	printf("time to eat: %d\n", data->time_to_eat);
