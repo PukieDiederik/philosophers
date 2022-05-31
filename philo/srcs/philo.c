@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:13:48 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:28:15 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,14 @@ void *philosopher(void *v)
 
 	while(vars->data->max_eat < 0 || vars->philo->times_eaten < vars->data->max_eat) {
 		if (vars->philo->state == eating) {
-			pthread_mutex_lock(vars->philo->l_fork);
-			printf("%lu\t\t%d\tHas taken their left fork\n",
-				   get_time() - vars->philo->start_time, vars->philo->id);
-			pthread_mutex_lock(vars->philo->r_fork);
-			printf("%lu\t\t%d\tHas taken their right fork\n",
-				   get_time() - vars->philo->start_time, vars->philo->id);
-			printf("%lu\t\t%d\tis eating\n",
-		  		get_time() - vars->philo->start_time, vars->philo->id);
-			vars->philo->time_last_eat = get_time();
-			vars->philo->times_eaten++;
-			sleep_until(get_time() + vars->data->time_to_eat, vars);
-			pthread_mutex_unlock(vars->philo->l_fork);
-			pthread_mutex_unlock(vars->philo->r_fork);
-			vars->philo->state = sleeping;
+			action_eat(vars);
 		}
 		else if (vars->philo->state == sleeping) {
-			printf("%lu\t\t%d\t is sleeping\n",
-				   get_time() - vars->philo->start_time, vars->philo->id);
-			sleep_until(get_time() + vars->data->time_to_sleep, vars);
-			vars->philo->state = thinking;
+			action_sleep(vars);
 		}
 		else if (vars->philo->state== thinking)
 		{
-			printf("%lu\t\t%d\t is thinking\n",
-				   get_time() - vars->philo->start_time, vars->philo->id);
-			sleep_until(get_time() + vars->data->time_to_eat + vars->data->time_to_sleep, vars);
-			vars->philo->state = eating;
+			action_think(vars);
 		}
 	}
 	free(vars->philo);

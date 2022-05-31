@@ -1,6 +1,6 @@
 ## File stuff
 
-FNAMES 		= philo.c utils.c data.c
+FNAMES 		= philo.c utils.c data.c actions.c
 
 HNAMES		= philo.h
 
@@ -19,7 +19,7 @@ OBJS_DIR	= objs
 ## Compilation
 
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=thread
+CFLAGS		= -Wall -Werror -Wextra -g #-fsanitize=thread
 INCLUDES	= -I $(INCLUDE_DIR)
 LIBS		=
 ## Other

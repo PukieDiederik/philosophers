@@ -63,6 +63,11 @@ typedef struct s_vars
 t_data *data_init(int argc, char **argv);
 void	data_destroy(t_data *d);
 
+// Actions
+int action_think(t_vars *vars);
+int action_eat(t_vars *vars);
+int action_sleep(t_vars *vars);
+
 // Utils
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
