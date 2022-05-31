@@ -6,12 +6,13 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:20:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:27:14 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:36:20 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
+#include <pthread.h>
 
 int action_think(t_vars *vars)
 {
@@ -48,4 +49,12 @@ int action_sleep(t_vars *vars)
 	sleep_until(get_time() + vars->data->time_to_sleep, vars);
 	vars->philo->state = thinking;
 	return (0);
+}
+
+void action_die(t_vars *vars)
+{
+	pthread_mutex_lock(&vars->data->m_death);
+	if (!vars->data->has_died)printf("%lu\t\t%d\t has died\n",
+									 get_time() - vars->philo->start_time, vars->philo->id);
+	pthread_mutex_unlock( &vars->data->m_death);
 }
