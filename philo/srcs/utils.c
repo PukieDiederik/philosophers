@@ -6,12 +6,20 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 17:28:54 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:16:32 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
 #include <stdlib.h>
+#include "philo.h"
+
+void sleep_until(ulong time, t_vars *v)
+{
+	while (get_time() < time)
+		if(v->philo->time_last_eat - v->data->start_time > (unsigned long) v->data->time_to_die)
+			break;
+}
 
 int	ft_isdigit(int c)
 {

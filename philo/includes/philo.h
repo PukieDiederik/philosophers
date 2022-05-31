@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 17:08:40 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:06:01 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
  */
 typedef struct s_data
 {
+	unsigned long	start_time;
 	int	time_to_die;
 
 	int	time_to_eat;
@@ -44,7 +45,7 @@ typedef struct s_philo
 {
 	int				id;
 	t_philo_state 	state;
-	int				time_last_eat;
+	unsigned long	time_last_eat;
 	int				times_eaten;
 	unsigned long	start_time;
 
@@ -66,5 +67,6 @@ void	data_destroy(t_data *d);
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
 unsigned long get_time(void);
+void sleep_until(unsigned long time, t_vars *v);
 
 #endif

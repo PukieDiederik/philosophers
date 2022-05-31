@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/23 17:29:26 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:13:48 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,27 @@ void *philosopher(void *v)
 		  		get_time() - vars->philo->start_time, vars->philo->id);
 			vars->philo->time_last_eat = get_time();
 			vars->philo->times_eaten++;
-			usleep(vars->data->time_to_eat * 1000);
+			sleep_until(get_time() + vars->data->time_to_eat, vars);
 			pthread_mutex_unlock(vars->philo->l_fork);
 			pthread_mutex_unlock(vars->philo->r_fork);
 			vars->philo->state = sleeping;
 		}
 		else if (vars->philo->state == sleeping) {
-			printf("%lu\t%d\t is sleeping\n",
+			printf("%lu\t\t%d\t is sleeping\n",
 				   get_time() - vars->philo->start_time, vars->philo->id);
+			sleep_until(get_time() + vars->data->time_to_sleep, vars);
 			vars->philo->state = thinking;
-			usleep(vars->data->time_to_sleep * 1000);
 		}
 		else if (vars->philo->state== thinking)
 		{
-			printf("%lu\t%d\t is thinking\n",
+			printf("%lu\t\t%d\t is thinking\n",
 				   get_time() - vars->philo->start_time, vars->philo->id);
+			sleep_until(get_time() + vars->data->time_to_eat + vars->data->time_to_sleep, vars);
 			vars->philo->state = eating;
-			usleep(vars->data->time_to_eat + vars->data->time_to_sleep);
 		}
 	}
 	free(vars->philo);
+	free(vars);
 	return (0);
 }
 
@@ -84,7 +85,12 @@ int     main(int argc, char **argv)
 	data = data_init(argc, argv);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
-	printf("creating forks & philos\n");
+	printf("num philos: %d\n", data->num_of_philos);
+	printf("time to die: %d\n", data->time_to_die);
+	printf("time to eat: %d\n", data->time_to_eat);
+	printf("time to sleep: %d\n", data->time_to_sleep);
+	printf("max eat: %d\n", data->max_eat);
+	printf("---------------------------------------");
 	while (++i < data->num_of_philos) {
 		t_vars *v = malloc(sizeof(t_vars));
 		v->philo = create_philo(i, data, forks);
@@ -98,7 +104,7 @@ int     main(int argc, char **argv)
 	}
 	i = -1;
 	while(++i < data->num_of_philos) {
-		pthread_mutex_destroy(forks +i);
+		pthread_mutex_destroy(forks + i);
 	}
 	printf("num philos: %d\n", data->num_of_philos);
 	printf("time to die: %d\n", data->time_to_die);
@@ -106,4 +112,6 @@ int     main(int argc, char **argv)
 	printf("time to sleep: %d\n", data->time_to_sleep);
 	printf("max eat: %d\n", data->max_eat);
 	data_destroy(data);
+	free(philosophers);
+	free(forks);
 }
