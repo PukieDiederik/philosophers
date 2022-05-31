@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:32:08 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:34:11 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_data *data_init(int argc, char **argv)
 		return (0);
 	pthread_mutex_init(&data->m_death, 0);
 	data->has_died = 0;
-	data->start_time = get_time();
 	data->num_of_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);

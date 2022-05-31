@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:16:32 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:18:42 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 
 void sleep_until(ulong time, t_vars *v)
 {
-	while (get_time() < time)
-		if(v->philo->time_last_eat - v->data->start_time > (unsigned long) v->data->time_to_die)
-			break;
+	while (get_time() < time && !v->data->has_died)
+		if(get_time() - v->philo->time_last_eat > (unsigned long) v->data->time_to_die)
+		{
+			action_die(v);
+			return ;
+		}
 }
 
 int	ft_isdigit(int c)

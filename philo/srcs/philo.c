@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:40:40 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:14:57 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks)
 	if (!philo)
 		return (0);
 	philo->id = id;
-	philo->state = id % 2;
-	philo->time_last_eat = 0;
+	philo->time_last_eat = get_time();
+	philo->start_time = get_time();
 	philo->times_eaten = 0;
 	philo->l_fork = forks + id;
 	philo->r_fork = forks + ((id + 1) % data->num_of_philos);
-	philo->start_time= get_time();
 	return (philo);
 }
 

@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:33:10 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:12:53 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_data
 {
 	pthread_mutex_t	m_death;
 	int 			has_died;
-	unsigned long	start_time;
 	int	time_to_die;
 
 	int	time_to_eat;
@@ -46,7 +45,6 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	t_philo_state 	state;
 	unsigned long	time_last_eat;
 	int				times_eaten;
 	unsigned long	start_time;
@@ -69,6 +67,7 @@ void	data_destroy(t_data *d);
 void action_think(t_vars *vars);
 void action_eat(t_vars *vars);
 void action_sleep(t_vars *vars);
+void action_die(t_vars *vars);
 
 // Utils
 int	ft_isdigit(int c);
