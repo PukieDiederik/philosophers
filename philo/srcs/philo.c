@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:28:15 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:40:40 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,10 @@ void *philosopher(void *v)
 {
 	t_vars	*vars = v;
 
-	while(vars->data->max_eat < 0 || vars->philo->times_eaten < vars->data->max_eat) {
-		if (vars->philo->state == eating) {
-			action_eat(vars);
-		}
-		else if (vars->philo->state == sleeping) {
-			action_sleep(vars);
-		}
-		else if (vars->philo->state== thinking)
-		{
-			action_think(vars);
-		}
-	}
+	if(vars->philo->id % 2)
+		action_think(vars);
+	else
+		action_eat(vars);
 	free(vars->philo);
 	free(vars);
 	return (0);

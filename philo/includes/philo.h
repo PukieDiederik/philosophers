@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 13:33:07 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:33:10 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ t_data *data_init(int argc, char **argv);
 void	data_destroy(t_data *d);
 
 // Actions
-int action_think(t_vars *vars);
-int action_eat(t_vars *vars);
-int action_sleep(t_vars *vars);
+void action_think(t_vars *vars);
+void action_eat(t_vars *vars);
+void action_sleep(t_vars *vars);
 
 // Utils
 int	ft_isdigit(int c);
