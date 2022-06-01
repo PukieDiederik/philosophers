@@ -14,10 +14,10 @@
 #include <stdlib.h>
 #include "philo.h"
 
-void sleep_until(ulong time, t_vars *v)
+void sleep_until(ULONG time, t_vars *v)
 {
 	while (get_time() < time && !v->data->has_died)
-		if(get_time() - v->philo->time_last_eat > (unsigned long) v->data->time_to_die)
+		if(get_time() - v->philo->time_last_eat > (ULONG) v->data->time_to_die)
 		{
 			action_die(v);
 			return ;
@@ -41,7 +41,7 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-unsigned long get_time(void)
+ULONG get_time(void)
 {
 	struct	timeval	tval;
 

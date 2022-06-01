@@ -15,6 +15,8 @@
 
 # include <pthread.h>
 
+# define ULONG unsigned long
+
 typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
 
 /* t_data -- All general data
@@ -45,9 +47,9 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	unsigned long	time_last_eat;
+	ULONG	time_last_eat;
 	int				times_eaten;
-	unsigned long	start_time;
+	ULONG	start_time;
 
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -72,7 +74,7 @@ void action_die(t_vars *vars);
 // Utils
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
-unsigned long get_time(void);
-void sleep_until(unsigned long time, t_vars *v);
+ULONG get_time(void);
+void sleep_until(ULONG time, t_vars *v);
 
 #endif
