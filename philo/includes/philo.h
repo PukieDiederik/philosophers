@@ -76,5 +76,6 @@ int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
 ULONG get_time(void);
 void sleep_until(ULONG time, t_vars *v);
+void print_status(t_vars *vars, char *str);
 
 #endif

@@ -13,6 +13,7 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include "philo.h"
+#include <stdio.h>
 
 void sleep_until(ULONG time, t_vars *v)
 {
@@ -22,6 +23,14 @@ void sleep_until(ULONG time, t_vars *v)
 			action_die(v);
 			return ;
 		}
+}
+
+void print_status(t_vars *vars, char *str)
+{
+	pthread_mutex_lock(&vars->data->m_death);
+	printf("%lu\t\t%d\t %s\n",
+		   get_time() - vars->philo->start_time, vars->philo->id, str);
+	pthread_mutex_unlock(&vars->data->m_death);
 }
 
 int	ft_isdigit(int c)
