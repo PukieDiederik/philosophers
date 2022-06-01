@@ -14,12 +14,10 @@
 #include <stdio.h>
 #include <pthread.h>
 
-void action_think(t_vars *vars)
+void action_think(t_vars *vars, ULONG time)
 {
 	print_status(vars, "is thinking");
-//	printf("%lu\t\t%d\t is thinking\n",
-//		   get_time() - vars->philo->start_time, vars->philo->id);
-	sleep_until(get_time() + vars->data->time_to_eat + vars->data->time_to_sleep, vars);
+	sleep_until(get_time() + time, vars);
 	if (vars->data->has_died)
 		return ;
 	action_eat(vars);
@@ -48,7 +46,7 @@ void action_sleep(t_vars *vars)
 	sleep_until(get_time() + vars->data->time_to_sleep, vars);
 	if (vars->data->has_died)
 		return ;
-	action_think(vars);
+	action_think(vars, vars->data->time_to_eat);
 }
 
 void action_die(t_vars *vars)

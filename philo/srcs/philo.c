@@ -21,7 +21,7 @@ void *philosopher(void *v)
 	t_vars	*vars = v;
 
 	if(vars->philo->id % 2)
-		action_think(vars);
+		action_think(vars, vars->data->time_to_eat);
 	else
 		action_eat(vars);
 	free(vars->philo);

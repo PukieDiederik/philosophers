@@ -66,7 +66,7 @@ t_data *data_init(int argc, char **argv);
 void	data_destroy(t_data *d);
 
 // Actions
-void action_think(t_vars *vars);
+void action_think(t_vars *vars, ULONG time);
 void action_eat(t_vars *vars);
 void action_sleep(t_vars *vars);
 void action_die(t_vars *vars);
