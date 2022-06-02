@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:20:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:41:29 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:55:49 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void action_sleep(t_vars *vars)
 	sleep_until(get_time() + vars->data->time_to_sleep, vars);
 	if (vars->data->has_died || vars->data->full_amount == vars->data->num_of_philos)
 		return ;
-	action_think(vars, vars->data->time_to_eat);
+	action_think(vars, vars->data->time_to_eat *
+		(1 + (vars->data->num_of_philos % 2))
+		- vars->data->time_to_sleep);
 }
 
 void action_die(t_vars *vars)

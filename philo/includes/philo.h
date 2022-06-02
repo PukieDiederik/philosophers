@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:37:00 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:46:17 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,15 @@ typedef struct s_data
 {
 	pthread_mutex_t	m_death;
 	int 			has_died;
-	int	time_to_die;
+	int				time_to_die;
 
 	int	time_to_eat;
 	int	time_to_sleep;
-	int num_of_philos;
-	int max_eat;
-	int full_amount;
+	int	num_of_philos;
+	int	max_eat;
+	int	full_amount;
 }	t_data;
 
-/* t_philo -- Philosopher specific data
- *	id:			Id of the philosopher
- *	state:		state of the philosopher
- *
- *	l_fork / r_fork: pointers to left and right forks
- */
 typedef struct s_philo
 {
 	int				id;
