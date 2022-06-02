@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:39:55 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:59:25 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_data *data_init(int argc, char **argv)
 	if (!data)
 		return (0);
 	pthread_mutex_init(&data->m_death, 0);
+	pthread_mutex_init(&data->m_fullamount, 0);
 	data->has_died = 0;
 	data->full_amount = 0;
 	data->num_of_philos = ft_atoi(argv[1]);

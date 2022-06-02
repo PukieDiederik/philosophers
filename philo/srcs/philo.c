@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:54:29 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:21:30 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ int     main(int argc, char **argv)
 	data = data_init(argc, argv);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
+	while (++i < data->num_of_philos)
+		pthread_mutex_init(forks + i, 0);
+	i = -1;
 	while (++i < data->num_of_philos) {
 		t_vars *v = malloc(sizeof(t_vars));
 		v->philo = create_philo(i, data, forks);
 		v->data = data;
-		pthread_mutex_init(forks + i, 0);
 		pthread_create(philosophers + i, 0, &philosopher, (void *)v);
 	}
 	i = -1;

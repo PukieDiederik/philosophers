@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:46:17 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:58:28 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
 typedef struct s_data
 {
 	pthread_mutex_t	m_death;
+	pthread_mutex_t	m_fullamount;
+
 	int 			has_died;
 	int				time_to_die;
 
