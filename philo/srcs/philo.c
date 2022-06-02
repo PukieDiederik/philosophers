@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 14:14:57 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:45:35 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ int     main(int argc, char **argv)
 	data = data_init(argc, argv);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
-	printf("num philos: %d\n", data->num_of_philos);
-	printf("time to die: %d\n", data->time_to_die);
-	printf("time to eat: %d\n", data->time_to_eat);
-	printf("time to sleep: %d\n", data->time_to_sleep);
-	printf("max eat: %d\n", data->max_eat);
-	printf("---------------------------------------");
 	while (++i < data->num_of_philos) {
 		t_vars *v = malloc(sizeof(t_vars));
 		v->philo = create_philo(i, data, forks);
@@ -78,11 +72,6 @@ int     main(int argc, char **argv)
 	while(++i < data->num_of_philos) {
 		pthread_mutex_destroy(forks + i);
 	}
-	printf("num philos: %d\n", data->num_of_philos);
-	printf("time to die: %d\n", data->time_to_die);
-	printf("time to eat: %d\n", data->time_to_eat);
-	printf("time to sleep: %d\n", data->time_to_sleep);
-	printf("max eat: %d\n", data->max_eat);
 	data_destroy(data);
 	free(philosophers);
 	free(forks);

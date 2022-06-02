@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 14:18:42 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:37:14 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 #include "philo.h"
 #include <stdio.h>
 
-void sleep_until(ULONG time, t_vars *v)
+void sleep_until(ulong time, t_vars *v)
 {
 	while (get_time() < time && !v->data->has_died)
-		if(get_time() - v->philo->time_last_eat > (ULONG) v->data->time_to_die)
+		if(get_time() - v->philo->time_last_eat >
+		(ulong) v->data->time_to_die)
 		{
 			action_die(v);
 			return ;
@@ -50,7 +51,7 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-ULONG get_time(void)
+ulong get_time(void)
 {
 	struct	timeval	tval;
 

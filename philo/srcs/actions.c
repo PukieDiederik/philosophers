@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:20:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 14:18:10 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:41:29 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <pthread.h>
 
-void action_think(t_vars *vars, ULONG time)
+void action_think(t_vars *vars, ulong time)
 {
 	print_status(vars, "is thinking");
 	sleep_until(get_time() + time, vars);
-	if (vars->data->has_died)
+	if (vars->data->has_died || vars->data->full_amount == vars->data->num_of_philos)
 		return ;
 	action_eat(vars);
 }
@@ -35,7 +35,9 @@ void action_eat(t_vars *vars)
 	sleep_until(get_time() + vars->data->time_to_eat, vars);
 	pthread_mutex_unlock(vars->philo->l_fork);
 	pthread_mutex_unlock(vars->philo->r_fork);
-	if(vars->philo->times_eaten > vars->data->max_eat || vars->data->has_died)
+	if (vars->philo->times_eaten == vars->data->max_eat)
+		vars->data->full_amount++;
+	if (vars->data->full_amount == vars->data->num_of_philos || vars->data->has_died)
 		return ;
 	action_sleep(vars);
 }
@@ -44,7 +46,7 @@ void action_sleep(t_vars *vars)
 {
 	print_status(vars, "is sleeping");
 	sleep_until(get_time() + vars->data->time_to_sleep, vars);
-	if (vars->data->has_died)
+	if (vars->data->has_died || vars->data->full_amount == vars->data->num_of_philos)
 		return ;
 	action_think(vars, vars->data->time_to_eat);
 }

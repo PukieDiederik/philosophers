@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/05/31 14:12:53 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:37:00 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <pthread.h>
 
-# define ULONG unsigned long
+typedef unsigned long ulong;
 
 typedef enum e_philo_state { thinking, eating, sleeping }	t_philo_state;
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	int	time_to_sleep;
 	int num_of_philos;
 	int max_eat;
+	int full_amount;
 }	t_data;
 
 /* t_philo -- Philosopher specific data
@@ -47,9 +48,9 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	ULONG	time_last_eat;
+	ulong	time_last_eat;
 	int				times_eaten;
-	ULONG	start_time;
+	ulong	start_time;
 
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -66,7 +67,7 @@ t_data *data_init(int argc, char **argv);
 void	data_destroy(t_data *d);
 
 // Actions
-void action_think(t_vars *vars, ULONG time);
+void action_think(t_vars *vars, ulong time);
 void action_eat(t_vars *vars);
 void action_sleep(t_vars *vars);
 void action_die(t_vars *vars);
@@ -74,8 +75,8 @@ void action_die(t_vars *vars);
 // Utils
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
-ULONG get_time(void);
-void sleep_until(ULONG time, t_vars *v);
+ulong get_time(void);
+void sleep_until(ulong time, t_vars *v);
 void print_status(t_vars *vars, char *str);
 
 #endif
