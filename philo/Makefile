@@ -19,7 +19,7 @@ OBJS_DIR	= objs
 ## Compilation
 
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=thread
+CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 INCLUDES	= -I $(INCLUDE_DIR)
 LIBS		=
 ## Other

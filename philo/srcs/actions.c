@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <pthread.h>
 
-void action_think(t_vars *vars, ulong time)
+void action_think(t_vars *vars, t_ulong time)
 {
 	print_status(vars, "is thinking");
 	sleep_until(get_time() + time, vars);
