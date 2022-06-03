@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:52:19 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:49:19 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 #include "philo.h"
 #include <stdio.h>
 
-void sleep_until(t_ulong time, t_vars *v)
+void	sleep_until(t_ulong time, t_vars *v)
 {
 	while (get_time() < time && !v->data->has_died)
-		if(get_time() - v->philo->time_last_eat >
-		(t_ulong) v->data->time_to_die)
+	{
+		if (get_time() - v->philo->time_last_eat > v->data->time_to_die)
 		{
 			action_die(v);
 			return ;
 		}
+	}
 }
 
-void print_status(t_vars *vars, char *str)
+void	print_status(t_vars *vars, char *str)
 {
 	pthread_mutex_lock(&vars->data->m_death);
 	if (!vars->data->has_died)
@@ -52,11 +53,11 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-t_ulong get_time(void)
+t_ulong	get_time(void)
 {
-	struct	timeval	tval;
+	struct timeval	tval;
 
-	if (gettimeofday(&tval,0) < 0)
+	if (gettimeofday(&tval, 0) < 0)
 		return (0);
 	return ((tval.tv_sec * 1000) + (tval.tv_usec / 1000));
 }

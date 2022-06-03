@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 11:39:57 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:40:01 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ typedef struct s_data
 	pthread_mutex_t	m_fullamount;
 
 	int				has_died;
-	int				time_to_die;
 
-	int				time_to_eat;
-	int				time_to_sleep;
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
 
 	int				num_of_philos;
 	int				max_eat;
