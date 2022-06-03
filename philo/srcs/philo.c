@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 14:12:50 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:32:29 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks)
 	return (philo);
 }
 
+int destroy_forks(pthread_mutex_t *forks, int i)
+{
+	while (--i >= 0)
+		pthread_mutex_destroy(forks + i);
+	return (1);
+}
+
 int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data)
 {
 	t_vars	*v;
@@ -56,7 +63,8 @@ int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data)
 
 	i = -1;
 	while (++i < data->num_of_philos)
-		pthread_mutex_init(forks + i, 0);
+		if (pthread_mutex_init(forks + i, 0))
+			return (destroy_forks(forks, i));
 	i = -1;
 	while (++i < data->num_of_philos)
 	{
@@ -65,7 +73,7 @@ int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data)
 		v->data = data;
 		pthread_create(philos + i, 0, &philosopher, v);
 	}
-	return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -78,9 +86,17 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		return (1);
 	data = data_init(argc, argv);
+	if (!data)
+		return (1);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
-	init_fork_philos(philosophers, forks, data);
+	if (!forks || !philosophers || init_fork_philos(philosophers, forks, data))
+	{
+		free(data);
+		free(forks);
+		free(philosophers);
+		return (1);
+	}
 	i = -1;
 	while (++i < data->num_of_philos)
 		pthread_join(philosophers[i], 0);
