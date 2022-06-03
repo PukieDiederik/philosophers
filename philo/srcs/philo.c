@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 14:32:29 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:46:18 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	*philosopher(void *v)
 		action_think(vars, vars->data->time_to_eat);
 	else
 		action_eat(vars);
-	free(vars->philo);
-	free(vars);
 	return (0);
 }
 
@@ -56,9 +54,8 @@ int destroy_forks(pthread_mutex_t *forks, int i)
 	return (1);
 }
 
-int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data)
+int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data, t_vars *vars)
 {
-	t_vars	*v;
 	int		i;
 
 	i = -1;
@@ -68,16 +65,16 @@ int	init_fork_philos(pthread_t *philos, pthread_mutex_t *forks, t_data *data)
 	i = -1;
 	while (++i < data->num_of_philos)
 	{
-		v = malloc(sizeof(t_vars));
-		v->philo = create_philo(i, data, forks);
-		v->data = data;
-		pthread_create(philos + i, 0, &philosopher, v);
+		(vars + i)->philo = create_philo(i, data, forks);
+		(vars + i)->data = data;
+		pthread_create(philos + i, 0, &philosopher, vars + i);
 	}
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
+	t_vars			*vars;
 	t_data			*data;
 	pthread_mutex_t	*forks;
 	pthread_t		*philosophers;
@@ -90,8 +87,17 @@ int	main(int argc, char **argv)
 		return (1);
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
-	if (!forks || !philosophers || init_fork_philos(philosophers, forks, data))
+	vars = malloc(sizeof(t_vars) * data->num_of_philos);
+	if (!forks || !philosophers || !vars || init_fork_philos(philosophers, forks, data, vars))
 	{
+		if (vars)
+		{
+			printf("Hello World!");
+			i = -1;
+			while (++i < data->num_of_philos)
+				free((vars + i)->philo);
+		}
+		free(vars);
 		free(data);
 		free(forks);
 		free(philosophers);
@@ -103,7 +109,11 @@ int	main(int argc, char **argv)
 	i = -1;
 	while (++i < data->num_of_philos)
 		pthread_mutex_destroy(forks + i);
+	i = -1;
+	while (++i < data->num_of_philos)
+		free((vars + i)->philo);
 	data_destroy(data);
 	free(philosophers);
 	free(forks);
+	free(vars);
 }
