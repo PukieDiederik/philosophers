@@ -6,14 +6,14 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/02 13:59:25 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:50:50 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
 
-static int is_valid(int argc, char **argv)
+static int	is_valid(int argc, char **argv)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ static int is_valid(int argc, char **argv)
 	return (1);
 }
 
-t_data *data_init(int argc, char **argv)
+t_data	*data_init(int argc, char **argv)
 {
 	t_data	*data;
 
@@ -49,7 +49,7 @@ t_data *data_init(int argc, char **argv)
 	else
 		data->max_eat = -1;
 	return (data);
-};
+}
 
 void	data_destroy(t_data *d)
 {
