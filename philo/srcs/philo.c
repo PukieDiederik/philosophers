@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/04 16:43:04 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:48:48 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	init_fork_philos(pthread_t *philosophers, pthread_mutex_t *forks, t_data *da
 	{
 		(vars + i)->philo = create_philo(i, data, forks, philos + i);
 		(vars + i)->data = data;
-		pthread_create(philosophers + i, 0, &philosopher, vars + i);
+		if (pthread_create(philosophers + i, 0, &philosopher, vars + i))
+			return (destroy_forks(forks, data->num_of_philos));
 	}
 	return (0);
 }
@@ -87,13 +88,6 @@ int	main(int argc, char **argv)
 	vars = malloc(sizeof(t_vars) * data->num_of_philos);
 	if (!forks || !philosophers || !vars || !philos || init_fork_philos(philosophers, forks, data, vars, philos))
 	{
-		if (vars)
-		{
-			printf("Hello World!");
-			i = -1;
-			while (++i < data->num_of_philos)
-				free((vars + i)->philo);
-		}
 		free(vars);
 		free(data);
 		free(forks);
