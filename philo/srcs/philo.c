@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/04 16:39:08 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:43:04 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	*philosopher(void *v)
 	t_vars	*vars;
 
 	vars = v;
+	vars->philo->start_time = get_time();
 	if (vars->data->num_of_philos % 2
 		&& vars->philo->id == vars->data->num_of_philos)
 		action_think(vars, vars->data->time_to_eat * 2);
@@ -35,7 +36,6 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks, t_philo *phi
 {
 	philo->id = id + 1;
 	philo->time_last_eat = get_time();
-	philo->start_time = get_time();
 	philo->times_eaten = 0;
 	philo->l_fork = forks + id;
 	philo->r_fork = forks + ((id + 1) % data->num_of_philos);
@@ -107,9 +107,10 @@ int	main(int argc, char **argv)
 	i = -1;
 	while (++i < data->num_of_philos)
 		pthread_mutex_destroy(forks + i);
-	data_destroy(data);
+	destroy_forks(forks, data->num_of_philos);
 	free(philos);
 	free(philosophers);
 	free(forks);
 	free(vars);
+	data_destroy(data);
 }
