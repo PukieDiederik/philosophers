@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 15:35:25 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:37:40 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,25 @@ int destroy_mutexes(pthread_mutex_t *forks, int i)
 	return (1);
 }
 
-int	init_fork_philos(pthread_t *philosophers, pthread_mutex_t *forks, t_data *data, t_vars *vars, t_philo *philos)
+int	init_fork_philos(t_collections *c, t_data *data)
 {
 	int		i;
 
 	i = -1;
 	while (++i < data->num_of_philos)
-		if (pthread_mutex_init(forks + i, 0))
-			return (destroy_mutexes(forks, i));
+		if (pthread_mutex_init(c->forks + i, 0))
+			return (destroy_mutexes(c->forks, i));
 	i = -1;
 	while (++i < data->num_of_philos)
 	{
-		(vars + i)->philo = create_philo(i, data, forks, philos + i);
-		(vars + i)->data = data;
-		if (pthread_create(philosophers + i, 0, &philosopher, vars + i))
+		(c->vars + i)->philo = create_philo(i, data, c->forks, c->philos + i);
+		(c->vars + i)->data = data;
+		if (pthread_create(c->philosophers + i, 0, &philosopher, c->vars + i))
 		{
 			pthread_mutex_lock(&data->m_death);
 				data->has_died = 1;
 			pthread_mutex_unlock(&data->m_death);
-			return (destroy_mutexes(forks, data->num_of_philos));
+			return (destroy_mutexes(c->forks, data->num_of_philos));
 		}
 	}
 	return (0);
@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 	c.philos = malloc(sizeof(t_philo) * data->num_of_philos);
 	c.philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
 	c.vars = malloc(sizeof(t_vars) * data->num_of_philos);
-	if (!c.forks || !c.philosophers || !c.vars || !c.philos || init_fork_philos(c.philosophers, c.forks, data, c.vars, c.philos))
+	if (!c.forks || !c.philosophers || !c.vars || !c.philos || init_fork_philos(&c, data))
 	{
 		free(c.vars);
 		free(data);
