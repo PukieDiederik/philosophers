@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:20:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 11:44:26 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:20:11 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,21 @@ void	action_think(t_vars *vars, t_ulong time)
 	action_eat(vars);
 }
 
-void	action_eat(t_vars *vars)
+static void	get_forks(t_vars *vars)
 {
 	pthread_mutex_lock(vars->philo->l_fork);
 	print_status(vars, "has taken their left fork");
+	if (vars->data->num_of_philos == 1)
+		return (sleep_until(get_time() + vars->data->time_to_die, vars));
 	pthread_mutex_lock(vars->philo->r_fork);
 	print_status(vars, "has taken their right fork");
+}
+
+void	action_eat(t_vars *vars)
+{
+	get_forks(vars);
+	if (vars->data->has_died)
+		return ;
 	print_status(vars, "is eating");
 	vars->philo->time_last_eat = get_time();
 	vars->philo->times_eaten++;

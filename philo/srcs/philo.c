@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 16:00:36 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:10:54 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ void	*philosopher(void *v)
 
 	vars = v;
 	vars->philo->start_time = get_time();
+	vars->philo->time_last_eat = get_time();
 	if (!vars->data->max_eat)
 		return (0);
 	if (vars->data->num_of_philos % 2
 		&& vars->philo->id == vars->data->num_of_philos)
 		action_think(vars, vars->data->time_to_eat * 2);
-	if (vars->philo->id % 2)
+	else if (vars->philo->id % 2)
 		action_think(vars, vars->data->time_to_eat);
 	else
 		action_eat(vars);
@@ -38,7 +39,6 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks,
 	t_philo *philo)
 {
 	philo->id = id + 1;
-	philo->time_last_eat = get_time();
 	philo->times_eaten = 0;
 	philo->l_fork = forks + id;
 	philo->r_fork = forks + ((id + 1) % data->num_of_philos);

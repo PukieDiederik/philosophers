@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 15:53:19 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:53:25 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	action_sleep(t_vars *vars);
 void	action_die(t_vars *vars);
 
 // Utils
-int	destroy_mutexes(pthread_mutex_t *forks, int i);
+int		destroy_mutexes(pthread_mutex_t *forks, int i);
 void	free_vars(t_collections *c, t_data *data);
 t_ulong	get_time(void);
 void	sleep_until(t_ulong time, t_vars *v);
