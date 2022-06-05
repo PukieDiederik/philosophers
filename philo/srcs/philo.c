@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/04 17:14:18 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:35:25 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,15 @@ int	init_fork_philos(pthread_t *philosophers, pthread_mutex_t *forks, t_data *da
 	return (0);
 }
 
+//void	free_vars(t_data *data, t_philo *pilos, pthread_t *philosophers, pthread_mutex_t *forks)
+//{
+//
+//}
+
 int	main(int argc, char **argv)
 {
-	t_vars			*vars;
+	struct s_collections c;
 	t_data			*data;
-	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	pthread_t		*philosophers;
 	int				i;
 
 	if (argc != 5 && argc != 6)
@@ -87,29 +89,29 @@ int	main(int argc, char **argv)
 	data = data_init(argc, argv);
 	if (!data)
 		return (1);
-	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
-	philos = malloc(sizeof(t_philo) * data->num_of_philos);
-	philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
-	vars = malloc(sizeof(t_vars) * data->num_of_philos);
-	if (!forks || !philosophers || !vars || !philos || init_fork_philos(philosophers, forks, data, vars, philos))
+	c.forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
+	c.philos = malloc(sizeof(t_philo) * data->num_of_philos);
+	c.philosophers = malloc(sizeof(pthread_t) * data->num_of_philos);
+	c.vars = malloc(sizeof(t_vars) * data->num_of_philos);
+	if (!c.forks || !c.philosophers || !c.vars || !c.philos || init_fork_philos(c.philosophers, c.forks, data, c.vars, c.philos))
 	{
-		free(vars);
+		free(c.vars);
 		free(data);
-		free(forks);
-		free(philosophers);
-		free(philos);
+		free(c.forks);
+		free(c.philosophers);
+		free(c.philos);
 		return (1);
 	}
 	i = -1;
 	while (++i < data->num_of_philos)
-		pthread_join(philosophers[i], 0);
+		pthread_join(c.philosophers[i], 0);
 	i = -1;
 	while (++i < data->num_of_philos)
-		pthread_mutex_destroy(forks + i);
-	destroy_mutexes(forks, data->num_of_philos);
-	free(philos);
-	free(philosophers);
-	free(forks);
-	free(vars);
+		pthread_mutex_destroy(c.forks + i);
+	destroy_mutexes(c.forks, data->num_of_philos);
+	free(c.philos);
+	free(c.philosophers);
+	free(c.forks);
+	free(c.vars);
 	data_destroy(data);
 }

@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 14:29:20 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:30:46 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,14 @@ typedef struct s_vars
 	t_philo	*philo;
 	t_data	*data;
 }	t_vars;
+
+typedef struct s_collections
+{
+	t_vars			*vars;
+	t_philo			*philos;
+	pthread_t		*philosophers;
+	pthread_mutex_t	*forks;
+}	t_collections;
 
 // Functions
 t_data	*data_init(int argc, char **argv);
