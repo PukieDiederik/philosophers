@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/04 16:48:48 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/04 17:14:18 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks, t_philo *phi
 	return (philo);
 }
 
-int destroy_forks(pthread_mutex_t *forks, int i)
+int destroy_mutexes(pthread_mutex_t *forks, int i)
 {
 	while (--i >= 0)
 		pthread_mutex_destroy(forks + i);
@@ -56,14 +56,19 @@ int	init_fork_philos(pthread_t *philosophers, pthread_mutex_t *forks, t_data *da
 	i = -1;
 	while (++i < data->num_of_philos)
 		if (pthread_mutex_init(forks + i, 0))
-			return (destroy_forks(forks, i));
+			return (destroy_mutexes(forks, i));
 	i = -1;
 	while (++i < data->num_of_philos)
 	{
 		(vars + i)->philo = create_philo(i, data, forks, philos + i);
 		(vars + i)->data = data;
 		if (pthread_create(philosophers + i, 0, &philosopher, vars + i))
-			return (destroy_forks(forks, data->num_of_philos));
+		{
+			pthread_mutex_lock(&data->m_death);
+				data->has_died = 1;
+			pthread_mutex_unlock(&data->m_death);
+			return (destroy_mutexes(forks, data->num_of_philos));
+		}
 	}
 	return (0);
 }
@@ -101,7 +106,7 @@ int	main(int argc, char **argv)
 	i = -1;
 	while (++i < data->num_of_philos)
 		pthread_mutex_destroy(forks + i);
-	destroy_forks(forks, data->num_of_philos);
+	destroy_mutexes(forks, data->num_of_philos);
 	free(philos);
 	free(philosophers);
 	free(forks);

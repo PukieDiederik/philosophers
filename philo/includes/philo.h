@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:14:06 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 14:34:16 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:29:20 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_vars
 
 // Functions
 t_data	*data_init(int argc, char **argv);
-void	data_destroy(t_data *d);
+void	*data_destroy(t_data *d);
 
 // Actions
 void	action_think(t_vars *vars, t_ulong time);
