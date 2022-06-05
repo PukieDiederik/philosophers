@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 15:52:46 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:00:36 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	*philosopher(void *v)
 
 	vars = v;
 	vars->philo->start_time = get_time();
+	if (!vars->data->max_eat)
+		return (0);
 	if (vars->data->num_of_philos % 2
 		&& vars->philo->id == vars->data->num_of_philos)
 		action_think(vars, vars->data->time_to_eat * 2);
