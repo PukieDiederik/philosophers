@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 14:56:54 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:02:31 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ t_data	*data_init(int argc, char **argv)
 		return (0);
 	if (pthread_mutex_init(&data->m_death, 0))
 		return (data_destroy(data));
-	if(pthread_mutex_init(&data->m_fullamount, 0)) {
-		pthread_mutex_destroy(data->)
+	if(pthread_mutex_init(&data->m_fullamount, 0))
+	{
+		pthread_mutex_destroy(&data->m_death);
 		return (data_destroy(data));
 	}
 	data->has_died = 0;
