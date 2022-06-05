@@ -6,12 +6,22 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:18:12 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 15:23:35 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:57:56 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
+
+static int	ft_atoi(const char *str)
+{
+	long	num;
+
+	num = 0;
+	while (*str >= '0' && *str <= '9')
+		num = (num * 10) + (*str++ - '0');
+	return (num);
+}
 
 static int	is_valid(int argc, char **argv)
 {
@@ -19,9 +29,9 @@ static int	is_valid(int argc, char **argv)
 
 	while (--argc)
 	{
-		i = 0;
-		while (argv[argc][i])
-			if (!ft_isdigit(argv[argc][i++]))
+		i = -1;
+		while (argv[argc][++i])
+			if (argv[argc][i] < '0' || argv[argc][i] > '9')
 				return (0);
 	}
 	return (1);

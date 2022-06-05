@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/03 11:49:19 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:52:46 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include <stdlib.h>
 #include "philo.h"
 #include <stdio.h>
+
+int	destroy_mutexes(pthread_mutex_t *forks, int i)
+{
+	while (--i >= 0)
+		pthread_mutex_destroy(forks + i);
+	return (1);
+}
+
+void	free_vars(t_collections *c, t_data *data)
+{
+	free(c->philos);
+	free(c->philosophers);
+	free(c->forks);
+	free(c->vars);
+	data_destroy(data);
+}
 
 void	sleep_until(t_ulong time, t_vars *v)
 {
@@ -34,23 +50,6 @@ void	print_status(t_vars *vars, char *str)
 		printf("%lu\t\t%d\t %s\n",
 			get_time() - vars->philo->start_time, vars->philo->id, str);
 	pthread_mutex_unlock(&vars->data->m_death);
-}
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_atoi(const char *str)
-{
-	long	num;
-
-	num = 0;
-	while (*str >= '0' && *str <= '9')
-		num = (num * 10) + (*str++ - '0');
-	return (num);
 }
 
 t_ulong	get_time(void)

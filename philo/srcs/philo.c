@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:09:00 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 15:45:04 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:52:46 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ t_philo	*create_philo(int id, t_data *data, pthread_mutex_t *forks,
 	return (philo);
 }
 
-int	destroy_mutexes(pthread_mutex_t *forks, int i)
-{
-	while (--i >= 0)
-		pthread_mutex_destroy(forks + i);
-	return (1);
-}
-
 int	init_fork_philos(t_collections *c, t_data *data)
 {
 	int		i;
@@ -73,15 +66,6 @@ int	init_fork_philos(t_collections *c, t_data *data)
 		}
 	}
 	return (0);
-}
-
-void	free_vars(t_collections *c, t_data *data)
-{
-	free(c->philos);
-	free(c->philosophers);
-	free(c->forks);
-	free(c->vars);
-	data_destroy(data);
 }
 
 int	init_collection(t_collections *c, t_data *data)
