@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:20:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 16:20:11 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/08 14:22:01 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	action_think(t_vars *vars, t_ulong time)
 static void	get_forks(t_vars *vars)
 {
 	pthread_mutex_lock(vars->philo->l_fork);
-	print_status(vars, "has taken their left fork");
+	print_status(vars, "has taken a fork");
 	if (vars->data->num_of_philos == 1)
 		return (sleep_until(get_time() + vars->data->time_to_die, vars));
 	pthread_mutex_lock(vars->philo->r_fork);
-	print_status(vars, "has taken their right fork");
+	print_status(vars, "has taken a fork");
 }
 
 void	action_eat(t_vars *vars)
@@ -88,7 +88,7 @@ void	action_die(t_vars *vars)
 	pthread_mutex_lock(&vars->data->m_death);
 	if (!vars->data->has_died)
 	{
-		printf("%lu\t\t%d\t has died\n",
+		printf("%lu %d died\n",
 			get_time() - vars->philo->start_time, vars->philo->id);
 		vars->data->has_died = 1;
 	}

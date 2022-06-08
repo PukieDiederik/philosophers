@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/08 14:19:42 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/08 14:20:25 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_status(t_vars *vars, char *str)
 {
 	pthread_mutex_lock(&vars->data->m_death);
 	if (!vars->data->has_died)
-		printf("%lu\t\t%d\t %s\n",
+		printf("%lu %d %s\n",
 			get_time() - vars->philo->start_time, vars->philo->id, str);
 	pthread_mutex_unlock(&vars->data->m_death);
 }
