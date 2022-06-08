@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/05 16:12:03 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/08 14:19:42 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,15 @@ void	free_vars(t_collections *c, t_data *data)
 
 void	sleep_until(t_ulong time, t_vars *v)
 {
-	while (get_time() < time && !v->data->has_died)
+	while (get_time() < time)
 	{
+		pthread_mutex_lock(&v->data->m_death);
+		if (v->data->has_died)
+		{
+			pthread_mutex_unlock(&v->data->m_death);
+			break ;
+		}
+		pthread_mutex_unlock(&v->data->m_death);
 		if (get_time() - v->philo->time_last_eat > v->data->time_to_die)
 		{
 			action_die(v);
