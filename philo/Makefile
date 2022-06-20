@@ -12,7 +12,7 @@ OBJS_DIR	= objs
 
 ## Compilation
 
-CC			= gcc
+CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 INCLUDES	= -I $(INCLUDE_DIR)
 LIBS		=
