@@ -6,12 +6,13 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:21:31 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/08 14:20:25 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:35:10 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "philo.h"
 #include <stdio.h>
 
@@ -47,6 +48,7 @@ void	sleep_until(t_ulong time, t_vars *v)
 			action_die(v);
 			return ;
 		}
+		usleep(10);
 	}
 }
 
