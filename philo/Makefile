@@ -2,15 +2,9 @@
 
 FNAMES 		= philo.c utils.c data.c actions.c
 
-HNAMES		= philo.h
-
-
-
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(FNAMES:.c=.o))
-
-HEADERS		=	$(addprefix $(INCLUDE_DIR)/,$(HNAMES))
 
 INCLUDE_DIR	= includes
 SRCS_DIR	= srcs
@@ -51,7 +45,7 @@ RESET			= \033[0m
 ## Targets
 all: $(NAME)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)| $(OBJS_DIR)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
 	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
 
